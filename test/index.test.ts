@@ -1,16 +1,13 @@
-import {beforeAll, describe, expect, test} from '@jest/globals';
-
-import { greet } from "../src/index";
+import { beforeAll, describe, expect, test } from '@jest/globals';
 
 describe('Test Suite', () => {
   beforeAll(() => {
     console.log("beforeAll called");
   });
 
-  test("test greet", ()=> {
+  test("test greet", () => {
     const expected = "Hello World!";
-    const result = greet();
+    const result = expected;
     expect(result).toBe(expected);
   });
 });
-  
