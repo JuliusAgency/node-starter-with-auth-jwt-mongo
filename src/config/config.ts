@@ -18,6 +18,11 @@ export const configApp: Configuration = {
     secretKey: process.env.SECRET_JWT,
     lifeTime: 5,
   },
+  transport: {
+    name: 'gmail',
+    user: process.env.SMTP_USERNAME,
+    password: process.env.SMTP_PASSWORD,
+  },
 };
 
 interface Configuration {
@@ -31,5 +36,10 @@ interface Configuration {
   authJwt: {
     secretKey: string;
     lifeTime: number;
+  };
+  transport: {
+    name: string;
+    user: string;
+    password: string;
   };
 }

@@ -16,6 +16,10 @@ import {
   BaseUser,
   authSetSetup,
 } from '@juliusagency/auth-jwt-mongo-set';
+import {
+  EmailClient,
+  TransportConfig,
+} from '@juliusagency/simple-email-client';
 // import { User } from './users';
 
 const app: Express = express();
@@ -45,10 +49,19 @@ connect().then(() => {
     lifeTime: configApp.authJwt.lifeTime,
   };
 
+  // Setup emailer
+  const transport: TransportConfig = {
+    name: configApp.transport.name,
+    user: configApp.transport.user,
+    password: configApp.transport.password,
+  };
+  const emailer = new EmailClient(transport);
+
   const config: AuthJwtSetSetupOptions = {
     // repository: '',
     User: BaseUser,
     authOpt: authJwtOptions,
+    emailer: emailer,
   };
 
   const { authMiddleware, authRouter } = authSetSetup(config);
