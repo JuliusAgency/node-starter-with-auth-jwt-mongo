@@ -1,4 +1,5 @@
 import dotenv from 'dotenv';
+import { LoggerOptions } from '@juliusagency/simple-logger';
 
 dotenv.config();
 
@@ -19,6 +20,9 @@ export const configApp: Configuration = {
     user: process.env.SMTP_USERNAME,
     password: process.env.SMTP_PASSWORD,
   },
+  logger: {
+    loggerLevel: process.env.SIMPLE_LOGGER_LEVEL,
+  },
 };
 
 interface Configuration {
@@ -38,4 +42,5 @@ interface Configuration {
     user: string;
     password: string;
   };
+  logger: LoggerOptions;
 }
