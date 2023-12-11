@@ -1,16 +1,16 @@
 # Node Typescript Starter with the set of Authentication packages with JWT and Sql Db
 
 <p>
-  <a href="https://github.com/JuliusAgency/node-starter-with-auth-ses-sql/actions/workflows/ci-build.yaml" target="_blank">
-    <img alt="CI build" src="https://github.com/JuliusAgency/node-starter-with-auth-ses-sql/actions/workflows/ci-build.yaml/badge.svg?branch=main" />
+  <a href="https://github.com/JuliusAgency/node-starter-with-auth-jwt-mongo/actions/workflows/ci-build.yaml" target="_blank">
+    <img alt="CI build" src="https://github.com/JuliusAgency/node-starter-with-auth-jwt-mongo/actions/workflows/ci-build.yaml/badge.svg?branch=main" />
   </a>
-  <a href="https://github.com/JuliusAgency/node-starter-with-auth-ses-sql#readme" target="_blank">
+  <a href="https://github.com/JuliusAgency/node-starter-with-auth-jwt-mongo#readme" target="_blank">
     <img alt="Documentation" src="https://img.shields.io/badge/documentation-yes-brightgreen.svg" />
   </a>
-  <a href="https://github.com/JuliusAgency/node-starter-with-auth-ses-sql/graphs/commit-activity" target="_blank">
+  <a href="https://github.com/JuliusAgency/node-starter-with-auth-jwt-mongo/graphs/commit-activity" target="_blank">
     <img alt="Maintenance" src="https://img.shields.io/badge/Maintained%3F-yes-green.svg" />
   </a>
-  <a href="https://github.com/JuliusAgency/node-starter-with-auth-ses-sql/blob/master/LICENSE" target="_blank">
+  <a href="https://github.com/JuliusAgency/node-starter-with-auth-jwt-mongo/blob/master/LICENSE" target="_blank">
     <img alt="License: MIT" src="https://img.shields.io/badge/License-MIT-yellow.svg" />
   </a>
 </p>
