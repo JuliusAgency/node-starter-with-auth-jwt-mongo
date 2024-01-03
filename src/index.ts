@@ -49,7 +49,7 @@ connect().then((connection) => {
   router.use('/examples', setupExamples({ isAuthorized }));
 
   app.use(router);
-  setupErrorHandler(router);
+  setupErrorHandler(app);
 
   const port = configApp.app.port;
   app.listen(port, () => {
