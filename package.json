@@ -1,6 +1,6 @@
 {
   "name": "@juliusagency/node-starter-with-auth-jwt-mongo",
-  "version": "1.0.2",
+  "version": "1.0.4",
   "description": "Starter for nodejs app",
   "main": "./build/main/index.js",
   "repository": "https://github.com/JuliusAgency/node-starter-with-auth-jwt-mongo",
@@ -61,7 +61,7 @@
     "singleQuote": true
   },
   "dependencies": {
-    "@juliusagency/auth-jwt-mongo-set": "^0.0.2",
+    "@juliusagency/auth-jwt-mongo-set": "^0.0.4",
     "@juliusagency/authorization-jwt-mongo-set": "^0.0.0",
     "@juliusagency/http-logger": "^0.0.0",
     "@juliusagency/simple-emailer": "^0.0.0",
