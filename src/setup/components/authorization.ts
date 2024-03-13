@@ -6,19 +6,24 @@ import {
   setupAuthorizationSet,
   AuthorizationJwtSetSetupOptions,
 } from '@juliusagency/authorization-jwt-mongo-set';
+
+import { configApp } from '../../config';
+
 import { aclData } from '../authorization-definitions/acl';
 import { rbacData } from '../authorization-definitions/rbac';
-import { configApp } from '../../config';
 
 export { ModelType };
 
-export const setupAuthorization = (connection: Connection, type: ModelType) => {
-  const rules = type === ModelType.ACL ? aclData : rbacData;
-  initRules(connection, type, rules);
+export const setupAuthorization = (connection: Connection) => {
+  const modelType = configApp.authorization_type;
+  const rules = modelType === ModelType.ACL ? aclData : rbacData;
+  if (configApp.test) {
+    initRules(connection, modelType, rules);
+  }
 
   const config: AuthorizationJwtSetSetupOptions = {
     connection: connection,
-    type: type,
+    type: modelType,
     secret: configApp.authJwt.secretKey,
   };
   return setupAuthorizationSet(config);
