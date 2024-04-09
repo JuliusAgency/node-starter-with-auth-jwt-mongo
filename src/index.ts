@@ -1,1 +1,3 @@
-export { startup } from './startup';
+import { startup } from './startup';
+
+startup();
