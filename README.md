@@ -1,4 +1,4 @@
-# Node Typescript Starter with the set of Authentication packages with JWT and Sql Db
+# Node Typescript Starter with the set of Authentication packages with JWT and Mongo Db
 
 <p>
   <a href="https://github.com/JuliusAgency/node-starter-with-auth-jwt-mongo/actions/workflows/ci-build.yaml" target="_blank">
@@ -40,8 +40,15 @@ Starter nodejs typescript application.
 ├── package.json  
 ├── src  
 │   ├── index.ts  
+│   ├── app-domain  
+│   ├── configuration  
+│   ├── core  
+│   ├── db  
+│   ├── initialization  
+│   ├── server  
 │   └── types  
-│   └── example.d.ts  
+│   └── example.d.ts
+├── index.ts  
 └── tsconfig.json
 
 ### The project infrastructure
@@ -72,7 +79,7 @@ cd <new-app-name>
 2. Clone the repository, remove git folder, init the new local git repo with the branch "main":
 
 ```bash
-git clone https://github.com/JuliusAgency/node-starter-<...>-auth-ses-sql.git .
+git clone https://github.com/JuliusAgency/node-starter-with-auth-jwt-mongo.git .
 rm -r .git
 git init -b main
 ```
@@ -125,6 +132,12 @@ npm run prepare
     Note: After the command is executed once, the Git hooks will run automatically before each commit and push.
 
 ### Development
+
+```bash
+cd src/app-domain
+```
+
+Place Your application code here.
 
 ### Usage the commands from the command line during the development:
 
