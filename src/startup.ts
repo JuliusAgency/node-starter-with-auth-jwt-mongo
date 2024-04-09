@@ -11,10 +11,8 @@ export const startup = async () => {
 
   // extend config by extensions configurations
   const config = appConfig(configMapping);
-  console.log(config);
 
   const db = await initDb(config);
-  console.log(db.name);
 
   const serverOptions: ServerOptions = {
     config: config,
