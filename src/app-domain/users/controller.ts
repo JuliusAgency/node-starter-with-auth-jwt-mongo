@@ -2,12 +2,19 @@ import { Request, Response } from 'express';
 
 import { User } from './model';
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export const setupUserController = () => {
+export const setupUserController = ({ core }) => {
+  const logger = core.logger;
+  const handler = core.handler;
+
   const getAllUsers = async (_req: Request, res: Response) => {
     const users = await User.find({});
-    if (!users) {
-      throw new Error('There are no users');
+    if (!users || users.length == 0) {
+      const message = `There are no users`;
+      logger.info(`what: ${message}, where: ${__filename}`);
+      throw new handler.AppError({
+        code: handler.ResponseCode.NOT_FOUND,
+        description: message,
+      });
     }
     return res.status(200).json(users);
   };
@@ -15,7 +22,12 @@ export const setupUserController = () => {
     const { userId } = req.params;
     const user = await getUserData(userId);
     if (!user) {
-      throw new Error("The user doesn't exists");
+      const message = `user id ${userId} doesn't exists`;
+      logger.info(`what: ${message}, where: ${__filename}`);
+      throw new handler.AppError({
+        code: handler.ResponseCode.NOT_FOUND,
+        description: message,
+      });
     }
     return res.status(200).json(user);
   };

@@ -5,7 +5,7 @@ import { AuthenticationOptions, setupAuthentication } from './authentication';
 import { setupAuthorization } from './authorization';
 
 import { setupLogger } from './logger';
-import { errorHandler } from './error-handler';
+import { errorHandler, AppError, ResponseCode } from './error-handler';
 // import * from './emailer';
 
 export type CoreOptions = {
@@ -35,10 +35,16 @@ export const initCore = async (options: CoreOptions) => {
   const { isAuthorized, initRules, ModelType } =
     await setupAuthorization(authorizationOptions);
 
+  const handler = {
+    errorHandler,
+    AppError,
+    ResponseCode,
+  };
+
   return {
     logger,
-    errorHandler,
     httpLogger,
+    handler,
     authRouter,
     authMiddleware,
     isAuthorized,

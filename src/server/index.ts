@@ -59,7 +59,7 @@ export const startupServer = async (options: ServerOptions) => {
 
   app.use(protectedRoutes, core.authMiddleware);
 
-  app.use(core.errorHandler);
+  app.use(core.handler.errorHandler);
 
   app.listen(config.port, () => {
     logger.info(`⚡️[server]: Server is running

@@ -3,6 +3,7 @@
  */
 import { setupUsers } from './users';
 import { setupExamples } from './examples';
+import { aclData, rbacData } from './data/authorization-definitions';
 
 export { User } from './users';
 
@@ -14,8 +15,6 @@ export const setupAppDomain = ({ router, core }) => {
 
   return ['/users', '/examples'];
 };
-
-import { aclData, rbacData } from './data/authorization-definitions';
 
 export const loadData = async ({ config, core }) => {
   if (config.test) {

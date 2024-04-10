@@ -1,1 +1,5 @@
-export { errorHandler } from '@juliusagency/simple-error-handler';
+export {
+  errorHandler,
+  AppError,
+  ResponseCode,
+} from '@juliusagency/simple-error-handler';
