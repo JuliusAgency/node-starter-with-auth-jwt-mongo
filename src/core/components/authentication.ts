@@ -18,6 +18,7 @@ export type AuthenticationOptions = {
 };
 
 export const setupAuthentication = (options: AuthenticationOptions) => {
+  const config = options.config;
   // Wrap up the User and the Token
   const User = options.user;
   const user = dBApi(User ? User : BaseUser);
@@ -27,7 +28,7 @@ export const setupAuthentication = (options: AuthenticationOptions) => {
   // Strategy
   const strategyOptions: StrategyOptions = {
     dBApi: user,
-    salt: options.config.salt,
+    salt: config.salt,
   };
 
   // Strategies
@@ -35,17 +36,17 @@ export const setupAuthentication = (options: AuthenticationOptions) => {
 
   // Auth middleware setup
   const authOpt: AuthJwtOptions = {
-    lifeTime: options.config.lifeTime,
-    secretKey: options.config.secretKey,
+    lifeTime: config.lifeTime,
+    secretKey: config.secretKey,
   };
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const { authMiddleware, encodeToken } = setupAuthMiddleware(authOpt);
 
   // Emailer
   const emailerOptions: EmailerConfigOptions = {
-    name: options.config.name,
-    user: options.config.user,
-    password: options.config.password,
+    name: config.name,
+    user: config.user,
+    password: config.password,
   };
 
   const emailer = emailerSetup(emailerOptions);
@@ -58,7 +59,7 @@ export const setupAuthentication = (options: AuthenticationOptions) => {
     session: false,
     Token: token,
     emailer: emailer,
-    salt: options.config.salt,
+    salt: config.salt,
   };
   const authRouter = setupAuthManager(authMngrOPtions);
 

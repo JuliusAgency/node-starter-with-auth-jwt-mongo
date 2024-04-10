@@ -14,6 +14,8 @@ export type ServerOptions = {
   user: any;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   appDomain: any;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  loadData: any;
 };
 
 export const startupServer = async (options: ServerOptions) => {
@@ -35,12 +37,15 @@ export const startupServer = async (options: ServerOptions) => {
     user: options.user,
   };
 
+  // All core dependencies
   const core = await options.core(coreOptions);
 
   const protectedRoutes = options.appDomain({
     router,
-    isAuthorized: core.isAuthorized,
+    core: core,
   });
+  // Load initial or test data into database
+  options.loadData({ config, core });
 
   const logger = core.logger;
   app.use(core.httpLogger);

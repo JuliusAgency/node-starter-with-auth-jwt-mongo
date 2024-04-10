@@ -5,8 +5,6 @@ import {
   rulesRepository,
 } from '@juliusagency/authorization-repo-mongo';
 
-import { aclData, rbacData } from '../authorization-definitions';
-
 export type AuthorizationOptions = {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   config: any;
@@ -17,12 +15,6 @@ export type AuthorizationOptions = {
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const setupAuthorization = async ({ config, db }) => {
   const modelType = config.modelType === 'ACL' ? ModelType.ACL : ModelType.RBAC;
-  if (config.test) {
-    const rules = modelType === ModelType.ACL ? aclData : rbacData;
-
-    await initRules(db, modelType, rules);
-    console.log(`authorization rules for ${config.modelType} created`);
-  }
 
   const rulesRepo = rulesRepository(db, modelType);
 
@@ -31,5 +23,11 @@ export const setupAuthorization = async ({ config, db }) => {
     secret: config.secretKey,
   };
 
-  return authorization({ rulesRepo }, aConf);
+  const isAuthorized = authorization({ rulesRepo }, aConf);
+
+  return {
+    isAuthorized,
+    initRules,
+    ModelType,
+  };
 };

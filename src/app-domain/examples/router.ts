@@ -1,7 +1,8 @@
 import { Router, Request, Response } from 'express';
 
 // export const setupExamplesRouter = ({ isAuthorized }) => {
-export const setupExamples = ({ isAuthorized }) => {
+export const setupExamples = ({ core }) => {
+  const isAuthorized = core.isAuthorized;
   const router = Router();
 
   router.get('/', (_req: Request, res: Response) => {

@@ -16,6 +16,7 @@ export type CoreOptions = {
 
 export const initCore = async (options: CoreOptions) => {
   const config = options.config;
+  const db = options.db;
 
   const { logger, httpLogger } = setupLogger(config);
 
@@ -28,10 +29,11 @@ export const initCore = async (options: CoreOptions) => {
 
   const authorizationOptions = {
     config: config,
-    db: options.db,
+    db: db,
   };
 
-  const isAuthorized = await setupAuthorization(authorizationOptions);
+  const { isAuthorized, initRules, ModelType } =
+    await setupAuthorization(authorizationOptions);
 
   return {
     logger,
@@ -40,5 +42,8 @@ export const initCore = async (options: CoreOptions) => {
     authRouter,
     authMiddleware,
     isAuthorized,
+    db,
+    initRules,
+    ModelType,
   };
 };

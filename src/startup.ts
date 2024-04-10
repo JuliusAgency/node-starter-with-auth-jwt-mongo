@@ -4,7 +4,7 @@ import { initDb } from './db';
 import { initCore } from './core';
 import { ServerOptions, startupServer } from './server';
 
-import { User, setupAppDomain } from './app-domain';
+import { User, setupAppDomain, loadData } from './app-domain';
 
 export const startup = async () => {
   const configMapping = getConfigMapping();
@@ -20,6 +20,7 @@ export const startup = async () => {
     core: initCore,
     user: User,
     appDomain: setupAppDomain,
+    loadData: loadData,
   };
 
   startupServer(serverOptions);

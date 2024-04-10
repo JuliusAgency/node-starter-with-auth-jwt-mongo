@@ -1,6 +1,7 @@
 import { Router } from 'express';
 
-export const setupUserRouter = ({ isAuthorized, controller }) => {
+export const setupUserRouter = ({ core, controller }) => {
+  const isAuthorized = core.isAuthorized;
   const router = Router();
   router.get(
     '/',

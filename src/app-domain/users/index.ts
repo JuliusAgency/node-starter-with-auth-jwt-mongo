@@ -6,7 +6,7 @@ import { setupUserRouter } from './router';
 
 export { User } from './model';
 
-export const setupUsers = ({ isAuthorized }) => {
+export const setupUsers = ({ core }) => {
   const controller = setupUserController();
-  return setupUserRouter({ isAuthorized, controller });
+  return setupUserRouter({ core, controller });
 };
