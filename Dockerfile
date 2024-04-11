@@ -1,7 +1,8 @@
 # syntax = docker/dockerfile:1.2
 
-# sudo docker build --build-arg=READ_FROM_REGISTRY=<GITHUB_REGISTRY_TOKEN> -t auth-jwt-mongo .
-# sudo docker run -it --rm --name auth-jwt-mongo-starter auth-jwt-mongo
+# docker build --build-arg=READ_FROM_REGISTRY=<GITHUB_REGISTRY_TOKEN> 
+#       --tag ghcr.io/juliusagency/node-starter-with-auth-jwt-mongo:[version | latest] .
+# docker run -it --rm --name auth-jwt-mongo-starter auth-jwt-mongo
 
 # Option 1
 # Start MongoDB and Node (link Node to MongoDB container with legacy linking)
