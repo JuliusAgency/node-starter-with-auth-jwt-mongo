@@ -50,7 +50,6 @@ export const startupServer = async (options: ServerOptions) => {
   const logger = core.logger;
   app.use(core.httpLogger);
 
-  app.use(router);
   router.get('/', (_req: Request, res: Response) => {
     res.json({ message: `Is live` });
   });
@@ -58,6 +57,8 @@ export const startupServer = async (options: ServerOptions) => {
   router.use('/auth', core.authRouter);
 
   app.use(protectedRoutes, core.authMiddleware);
+
+  app.use(router);
 
   app.use(core.handler.errorHandler);
 
