@@ -4,7 +4,7 @@ import { initDb } from './db';
 import { initCore } from './core';
 import { ServerOptions, startupServer } from './server';
 
-import { User, setupAppDomain, loadData } from './app-domain';
+import { User, setupAppDomain, protectedRoutes, loadData } from './app-domain';
 
 export const startup = async () => {
   const configMapping = getConfigMapping();
@@ -19,6 +19,7 @@ export const startup = async () => {
     db: db,
     core: initCore,
     user: User,
+    protectedRoutes: protectedRoutes,
     appDomain: setupAppDomain,
     loadData: loadData,
   };

@@ -1,7 +1,7 @@
 /**
  * Setup package
  */
-import { AuthenticationOptions, setupAuthentication } from './authentication';
+import { setupAuthentication } from './authentication';
 import { setupAuthorization } from './authorization';
 
 import { setupLogger } from './logger';
@@ -9,23 +9,32 @@ import { errorHandler, AppError, ResponseCode } from './error-handler';
 // import * from './emailer';
 
 export type CoreOptions = {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  app: any;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  router: any;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  passport: any;
   config: undefined;
   db: undefined;
   user: undefined;
 };
 
 export const initCore = async (options: CoreOptions) => {
-  const config = options.config;
-  const db = options.db;
+  const { app, router, passport, config, db, user } = options;
 
   const { logger, httpLogger } = setupLogger(config);
 
-  const authOptions: AuthenticationOptions = {
+  const authOptions = {
+    app: app,
+    router: router,
+    passport: passport,
     config: config,
-    user: options.user,
+    db: db,
+    User: user,
   };
-
-  const { authRouter, authMiddleware } = setupAuthentication(authOptions);
+  const { authRouter, userMngrRouter, authMiddleware } =
+    setupAuthentication(authOptions);
 
   const authorizationOptions = {
     config: config,
@@ -46,6 +55,7 @@ export const initCore = async (options: CoreOptions) => {
     httpLogger,
     handler,
     authRouter,
+    userMngrRouter,
     authMiddleware,
     isAuthorized,
     db,

@@ -1,39 +1,50 @@
 import { AuthJwtOptions, setupAuthMiddleware } from '@juliusagency/auth-jwt';
+import { BaseUser, dBApi, Token } from '@juliusagency/base-user-mongo';
+import { cryptUtils, CryptUtilsOptions } from '@juliusagency/auth-utils';
+import { initVerify, VerifyOptions } from '@juliusagency/auth-verify-service';
 import {
-  initStrategy,
+  initStrategy as InitLocal,
   StrategyOptions,
 } from '@juliusagency/auth-strategy-local';
-import { BaseUser, dBApi, Token } from '@juliusagency/base-user-mongo';
+import { AuthMngrOptions, initAuthMngr } from '@juliusagency/auth-mngr';
 import {
-  AuthMngrOPtions,
-  setupAuthManager,
-} from '@juliusagency/base-user-mngr';
-import { EmailerConfigOptions, emailerSetup } from './emailer';
+  UserMngrOPtions,
+  setupUserManager,
+} from '@juliusagency/auth-user-mngr';
 
-export type AuthenticationOptions = {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  config: any;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  user: any;
-};
+// Reexport
+export { BaseUser, Token };
 
-export const setupAuthentication = (options: AuthenticationOptions) => {
-  const config = options.config;
+// Setup Auth with session and Sql Db
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export const setupAuthentication = (authOptions: any) => {
+  const { config, db, router, passport, User } = authOptions;
   // Wrap up the User and the Token
-  const User = options.user;
+  console.log(db.name);
   const user = dBApi(User ? User : BaseUser);
   const token = dBApi(Token);
 
   // Setup the strategy and the user manager with the user
   // Strategy
-  const strategyOptions: StrategyOptions = {
+  const cryptUtilsOptions: CryptUtilsOptions = {
+    salt: Number(config.salt),
+  };
+
+  const utils = cryptUtils(cryptUtilsOptions);
+
+  const verifyOptions: VerifyOptions = {
     dBApi: user,
-    salt: config.salt,
+    utils: utils,
+  };
+
+  const verifyUser = initVerify(verifyOptions);
+
+  const strategyOptions: StrategyOptions = {
+    verify: verifyUser,
     loginFieldName: config.loginFieldName,
   };
 
-  // Strategies
-  const strategy = initStrategy(strategyOptions);
+  const local = InitLocal(strategyOptions);
 
   // Auth middleware setup
   const authOpt: AuthJwtOptions = {
@@ -43,27 +54,25 @@ export const setupAuthentication = (options: AuthenticationOptions) => {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const { authMiddleware, encodeToken } = setupAuthMiddleware(authOpt);
 
-  // Emailer
-  const emailerOptions: EmailerConfigOptions = {
-    name: config.name,
-    user: config.user,
-    password: config.password,
+  // Auth manager
+  const authMngrOptions: AuthMngrOptions = {
+    router: router,
+    passport: passport,
+    session: false,
+    encode: encodeToken,
+    strategies: [local],
   };
-
-  const emailer = emailerSetup(emailerOptions);
+  const authRouter = initAuthMngr(authMngrOptions);
 
   // User manager
-  const authMngrOPtions: AuthMngrOPtions = {
+  const userMngrOPtions: UserMngrOPtions = {
     User: user,
-    strategy: strategy,
-    encode: encodeToken,
-    session: false,
     Token: token,
-    emailer: emailer,
-    salt: config.salt,
-    loginFieldName: config.loginFieldName,
+    utils: utils,
+    session: false,
+    emailer: config.emailer,
   };
-  const authRouter = setupAuthManager(authMngrOPtions);
+  const userMngrRouter = setupUserManager(userMngrOPtions);
 
-  return { authRouter, authMiddleware };
+  return { authRouter, userMngrRouter, authMiddleware };
 };

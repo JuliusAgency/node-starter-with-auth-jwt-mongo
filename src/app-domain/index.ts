@@ -12,9 +12,9 @@ export const setupAppDomain = ({ router, core }) => {
   const examplesRouter = setupExamples({ core });
   router.use('/users', usersRouter);
   router.use('/examples', examplesRouter);
-
-  return ['/users', '/examples'];
 };
+
+export const protectedRoutes = ['/users', '/examples'];
 
 export const loadData = async ({ config, core }) => {
   if (config.test) {

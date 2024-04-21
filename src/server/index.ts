@@ -1,7 +1,9 @@
 import express, { Express, Router, Request, Response } from 'express';
+import passport from 'passport';
 
 import { setupCors } from './cors';
 import { setupHeaders } from './headers';
+import { CoreOptions } from '../core';
 
 export type ServerOptions = {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -14,6 +16,8 @@ export type ServerOptions = {
   user: any;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   appDomain: any;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  protectedRoutes: any;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   loadData: any;
 };
@@ -31,7 +35,10 @@ export const startupServer = async (options: ServerOptions) => {
 
   const router = Router();
 
-  const coreOptions = {
+  const coreOptions: CoreOptions = {
+    app: app,
+    router: router,
+    passport: passport,
     config: config,
     db: options.db,
     user: options.user,
@@ -39,8 +46,10 @@ export const startupServer = async (options: ServerOptions) => {
 
   // All core dependencies
   const core = await options.core(coreOptions);
+  const protectedRoutes = options.protectedRoutes;
+  app.use(protectedRoutes, core.authMiddleware);
 
-  const protectedRoutes = options.appDomain({
+  options.appDomain({
     router,
     core: core,
   });
@@ -55,8 +64,7 @@ export const startupServer = async (options: ServerOptions) => {
   });
 
   router.use('/auth', core.authRouter);
-
-  app.use(protectedRoutes, core.authMiddleware);
+  router.use('/user-mngr', core.userMngrRouter);
 
   app.use(router);
 
